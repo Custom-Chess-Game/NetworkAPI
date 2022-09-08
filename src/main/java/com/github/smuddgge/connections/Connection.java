@@ -30,11 +30,17 @@ public abstract class Connection {
     protected BufferedReader bufferedReader;
 
     /**
+     * When in debug mode there will be more console logs
+     * The additional logs can state things such as the data reserved and sent
+     */
+    private boolean debugMode = false;
+
+    /**
      * Used to initialise the connection to the socket
      * @param socket Socket to connect to
      */
     public Connection(Socket socket) throws IOException {
-        Console.print(ConsoleColour.WHITE + "Connecting to socket " + socket.getLocalAddress() + " " + socket.getPort());
+        Console.print(ConsoleColour.WHITE + "[Socket] Connecting to socket " + socket.getLocalAddress() + " " + socket.getPort());
 
         // Used to send information to the server
         this.printWriter = new PrintWriter(socket.getOutputStream(), true);
@@ -42,7 +48,7 @@ public abstract class Connection {
         // Used to receive information from the server
         this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        Console.print(ConsoleColour.YELLOW + "Connected to " + socket.getInetAddress());
+        Console.print(ConsoleColour.WHITE + "[Socket] Connected to " + socket.getInetAddress());
     }
 
     /**
@@ -52,7 +58,7 @@ public abstract class Connection {
      * @param port The port the server is running on
      */
     public Connection(String host, int port) throws IOException {
-        Console.print(ConsoleColour.WHITE + "Connecting to socket " + host + " " + port);
+        Console.print(ConsoleColour.WHITE + "[Socket] Connecting to socket " + host + " " + port);
 
         // Connecting to the server with a socket
         this.socket = new Socket(host, port);
@@ -63,7 +69,7 @@ public abstract class Connection {
         // Used to receive information from the server
         this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        Console.print(ConsoleColour.YELLOW + "Connected to " + host + " " + port);
+        Console.print(ConsoleColour.WHITE + "[Socket] Connected to " + host + " " + port);
     }
 
     /**
@@ -72,14 +78,28 @@ public abstract class Connection {
      */
     public void send(String data) {
         this.printWriter.println(data);
+        if (this.debugMode) Console.print(ConsoleColour.WHITE + "[Socket] Sending data: " + data);
     }
 
     /**
      * Used to read a line from the socket
+     * If there is no lines it will wait till a line is written
      * @throws IOException Read error
      * @return Data read from the socket
      */
     public String read() throws IOException {
-        return this.bufferedReader.readLine();
+        String data = this.bufferedReader.readLine();
+
+        if (this.debugMode) Console.print(ConsoleColour.WHITE + "[Socket] Reading data: " + data);
+
+        return data;
+    }
+
+    /**
+     * Used to turn debug mode on
+     * @param debugMode True to turn debug mode on
+     */
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }

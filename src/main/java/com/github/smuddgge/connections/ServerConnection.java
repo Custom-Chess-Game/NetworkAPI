@@ -1,33 +1,59 @@
 package com.github.smuddgge.connections;
 
+import com.github.smuddgge.console.Console;
+import com.github.smuddgge.console.ConsoleColour;
+import com.github.smuddgge.server.Server;
+
 import java.io.IOException;
+import java.net.Socket;
 
 /**
- * Represents the connection to the server
+ * Represents a communication between the server and client
+ * This is a thread on the servers end
  */
 public class ServerConnection extends Connection {
 
     /**
-     * Used to initialise the connection to the server
-     * @param host The host
-     *             localhost if running on the same machine
-     * @param port The port the server is running on
-     * @throws IOException Connection error
+     * Status of the connection
      */
-    public ServerConnection(String host, int port) throws IOException {
-        super(host, port);
+    private boolean running = true;
+
+    /**
+     * Instance of the server
+     */
+    private final Server server;
+
+    /**
+     * Used to create a server thread
+     * @param socket The socket connected to the client
+     * @param server The server the thread is running on
+     * @throws IOException Socket error
+     */
+    public ServerConnection(Socket socket, Server server) throws IOException {
+        super(socket);
+
+        this.server = server;
     }
 
     /**
-     * Used to request something from the server
-     * @param request Information to send to the server
-     * @return Result from the server
+     * Threaded method
      */
-    public String request(String request) throws IOException {
-        // Send request to the server
-        this.send(request);
+    public void run() {
+        while(this.running) {
+            try {
+                String data = read();
+                System.out.println(data);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
 
-        // Read response from the server
-        return this.read();
+    /**
+     * Used to stop the thread
+     */
+    public void stop() {
+        this.running = false;
+        Console.print(ConsoleColour.WHITE + "[Server Thread] Thread stopped on socket: " + this.socket);
     }
 }
