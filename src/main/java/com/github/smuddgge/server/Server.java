@@ -1,7 +1,6 @@
 package com.github.smuddgge.server;
 
-import com.github.smuddgge.connections.Connection;
-import com.github.smuddgge.connections.ServerConnection;
+import com.github.smuddgge.connections.ServerThreadConnection;
 import com.github.smuddgge.console.Console;
 import com.github.smuddgge.console.ConsoleColour;
 
@@ -28,7 +27,12 @@ public class Server {
     /**
      * The current connections to clients
      */
-    private static ArrayList<ServerConnection> connections = new ArrayList<>();
+    private static ArrayList<ServerThreadConnection> connections = new ArrayList<>();
+
+    /**
+     * Weather or not the threads should start with debug mode
+     */
+    private boolean debugMode = false;
 
     /**
      * Used to initialise the server
@@ -53,12 +57,14 @@ public class Server {
                 Console.print("[Server] " + ConsoleColour.PINK + "Client connected " + ConsoleColour.YELLOW + client.getInetAddress());
 
                 // Thread the client
-                ServerConnection serverThread = new ServerConnection(client, this);
+                ServerThreadConnection serverThread = new ServerThreadConnection(client, this);
+                serverThread.setDebugMode(debugMode);
                 Server.connections.add(serverThread);
 
                 Thread thread = new Thread(serverThread::run);
                 thread.start();
-            } catch (IOException exception) {
+            }
+            catch (IOException exception) {
                 exception.printStackTrace();
             }
         }
@@ -70,20 +76,34 @@ public class Server {
     public void stop() {
         Console.print("[Server] " + ConsoleColour.GREEN + "Stopping server");
 
-        for (ServerConnection serverConnection : this.connections) {
+        // Stop listening for connections
+        this.running = false;
+
+        // Stop all threads
+        for (ServerThreadConnection serverConnection : Server.connections) {
             serverConnection.stop();
         }
 
-        this.running = false;
-
         Console.print("[Server] " + ConsoleColour.GREEN + "Server stopped");
+    }
+
+    /**
+     * Used to set debug mode to a certain value for all threads
+     * @param debugMode True to turn on debug mode for all threads
+     */
+    public void setDebugMode(boolean debugMode) {
+        for (ServerThreadConnection serverConnection : Server.connections) {
+            serverConnection.setDebugMode(debugMode);
+        }
+
+        this.debugMode = debugMode;
     }
 
     /**
      * Get the connections to the server
      * @return List of connections to the server
      */
-    public ArrayList<ServerConnection> getConnections() {
+    public ArrayList<ServerThreadConnection> getConnections() {
         return Server.connections;
     }
 }

@@ -1,11 +1,15 @@
 package com.github.smuddgge.connections;
 
+import com.github.smuddgge.managers.ClientNetworkManager;
+
 import java.io.IOException;
 
 /**
  * Represents the connection to the server
  */
 public class ClientConnection extends Connection {
+
+    private final ClientNetworkManager clientNetworkManager;
 
     /**
      * Used to initialise the connection to the server
@@ -16,6 +20,8 @@ public class ClientConnection extends Connection {
      */
     public ClientConnection(String host, int port) throws IOException {
         super(host, port);
+
+        this.clientNetworkManager = new ClientNetworkManager(this);
     }
 
     /**
@@ -29,5 +35,13 @@ public class ClientConnection extends Connection {
 
         // Read response from the server
         return this.read();
+    }
+
+    /**
+     * Used to get the client network manager
+     * @return Client network manager
+     */
+    public ClientNetworkManager getNetworkManager() {
+        return this.clientNetworkManager;
     }
 }
