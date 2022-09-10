@@ -11,9 +11,6 @@ import java.util.UUID;
  */
 public class PlayerConnectionEvent extends Event {
 
-    private String name;
-    private UUID uuid;
-
     public PlayerConnectionEvent() {}
 
     /**
@@ -28,23 +25,7 @@ public class PlayerConnectionEvent extends Event {
 
     @Override
     public void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        this.name = (String) credentials.getMap().get("name");
-        this.uuid = UUID.fromString((String) credentials.getMap().get("uuid"));
-    }
-
-    /**
-     * Used to get the clients name from the last update
-     * @return Clients name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Used to get the clients uuid
-     * @return Clients uuid
-     */
-    public UUID getUUID() {
-        return this.uuid;
+        serverThreadNetworkManager.getPlayerProfile().name = (String) credentials.getMap().get("name");
+        serverThreadNetworkManager.getPlayerProfile().uuid = UUID.fromString((String) credentials.getMap().get("uuid"));
     }
 }

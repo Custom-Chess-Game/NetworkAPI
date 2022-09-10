@@ -8,6 +8,7 @@ import com.github.smuddgge.packets.Packet;
 import com.github.smuddgge.packets.RequestPacket;
 import com.github.smuddgge.requests.Request;
 import com.github.smuddgge.server.Server;
+import com.github.smuddgge.utility.PlayerProfile;
 
 import java.util.Objects;
 
@@ -19,6 +20,11 @@ public class ServerThreadNetworkManager extends NetworkManager {
     private final Server server;
 
     /**
+     * The players infomation
+     */
+    private final PlayerProfile playerProfile;
+
+    /**
      * Used to create a network manager
      * Used to create a server specific manager
      * @param connection Connection to the socket
@@ -27,6 +33,7 @@ public class ServerThreadNetworkManager extends NetworkManager {
         super(connection);
 
         this.server = server;
+        this.playerProfile = new PlayerProfile();
     }
 
     /**
@@ -86,5 +93,13 @@ public class ServerThreadNetworkManager extends NetworkManager {
      */
     public ServerThreadConnection getServerThread() {
         return (ServerThreadConnection) this.connection;
+    }
+
+    /**
+     * Used to get the players profile
+     * @return Player profile
+     */
+    public PlayerProfile getPlayerProfile() {
+        return this.playerProfile;
     }
 }

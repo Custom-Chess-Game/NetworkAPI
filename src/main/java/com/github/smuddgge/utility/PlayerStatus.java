@@ -4,5 +4,5 @@ package com.github.smuddgge.utility;
  * Represents a players status
  */
 public enum PlayerStatus {
-    WAITING, IN_GAME
+    OFFLINE_MODE, WAITING, IN_GAME
 }

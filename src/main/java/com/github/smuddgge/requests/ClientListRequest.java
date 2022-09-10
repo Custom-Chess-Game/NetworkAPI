@@ -17,13 +17,10 @@ public class ClientListRequest extends Request {
         for (ServerThreadConnection client : server.getConnections()) {
             Map<String, Object> clientInfo = new HashMap<>();
 
-            PlayerConnectionEvent playerConnectionEvent = (PlayerConnectionEvent) client.getNetworkManager().getEvent(PlayerConnectionEvent.class);
-            clientInfo.put("name", playerConnectionEvent.getName());
+            clientInfo.put("name", client.getNetworkManager().getPlayerProfile().name);
+            clientInfo.put("status", client.getNetworkManager().getPlayerProfile().playerStatus);
 
-            PlayerStatusEvent playerStatusEvent = (PlayerStatusEvent) client.getNetworkManager().getEvent(PlayerStatusEvent.class);
-            clientInfo.put("status", playerStatusEvent.getStatus());
-
-            clients.put(playerConnectionEvent.getUUID().toString(), clientInfo);
+            clients.put(serverThreadNetworkManager.getPlayerProfile().uuid.toString(), clientInfo);
         }
         return clients;
     }

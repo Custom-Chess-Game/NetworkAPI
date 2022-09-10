@@ -7,8 +7,6 @@ import com.github.smuddgge.utility.PlayerStatus;
 
 public class PlayerStatusEvent extends Event {
 
-    private PlayerStatus playerStatus = PlayerStatus.WAITING;
-
     public PlayerStatusEvent() {}
 
     public PlayerStatusEvent(PlayerStatus playerStatus) {
@@ -17,10 +15,6 @@ public class PlayerStatusEvent extends Event {
 
     @Override
     public void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        this.playerStatus = PlayerStatus.valueOf((String) credentials.getMap().get("status"));
-    }
-
-    public Object getStatus() {
-        return this.playerStatus;
+        serverThreadNetworkManager.getPlayerProfile().playerStatus = PlayerStatus.valueOf((String) credentials.getMap().get("status"));
     }
 }
