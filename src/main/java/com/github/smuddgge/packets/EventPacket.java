@@ -19,6 +19,7 @@ public class EventPacket extends Packet {
 
     public EventPacket(String name) {
         this.eventPacket.put("name", name);
+        this.packageCredentials();
     }
 
     /**

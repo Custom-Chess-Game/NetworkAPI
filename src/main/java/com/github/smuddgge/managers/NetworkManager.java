@@ -3,6 +3,7 @@ package com.github.smuddgge.managers;
 import com.github.smuddgge.connections.Connection;
 import com.github.smuddgge.events.Event;
 import com.github.smuddgge.events.PlayerConnectionEvent;
+import com.github.smuddgge.events.PlayerDisconnectEvent;
 import com.github.smuddgge.events.PlayerStatusEvent;
 import com.github.smuddgge.requests.ClientListRequest;
 import com.github.smuddgge.requests.Request;
@@ -32,6 +33,7 @@ public class NetworkManager {
 
         // Add events
         this.events.add(new PlayerConnectionEvent());
+        this.events.add(new PlayerDisconnectEvent());
         this.events.add(new PlayerStatusEvent());
 
         // Add requests

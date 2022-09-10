@@ -1,5 +1,6 @@
 package com.github.smuddgge.events;
 
+import com.github.smuddgge.managers.ServerThreadNetworkManager;
 import com.github.smuddgge.packets.EventPacket;
 import com.github.smuddgge.packets.Packet;
 import com.github.smuddgge.server.Server;
@@ -30,8 +31,9 @@ public abstract class Event {
      * Used when the event packet is sent to the server
      * @param credentials Credentials from the packet
      * @param server The instance of the server running the thread
+     * @param serverThreadNetworkManager The thread network manager
      */
-    public abstract void update(Packet credentials, Server server);
+    public abstract void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager);
 
     /**
      * Used to get the event packet

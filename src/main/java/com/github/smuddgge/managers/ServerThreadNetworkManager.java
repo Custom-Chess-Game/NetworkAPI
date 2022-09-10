@@ -1,6 +1,7 @@
 package com.github.smuddgge.managers;
 
 import com.github.smuddgge.connections.Connection;
+import com.github.smuddgge.connections.ServerThreadConnection;
 import com.github.smuddgge.events.Event;
 import com.github.smuddgge.packets.EventPacket;
 import com.github.smuddgge.packets.Packet;
@@ -52,7 +53,7 @@ public class ServerThreadNetworkManager extends NetworkManager {
     private void interpretEvent(EventPacket eventPacket) {
         for (Event event : this.events) {
             if (!Objects.equals(eventPacket.getName(), event.getEventName())) continue;
-            event.update(eventPacket.getEventCredentialsMap(), this.server);
+            event.update(eventPacket.getEventCredentialsMap(), this.server, this);
         }
     }
 
@@ -77,5 +78,13 @@ public class ServerThreadNetworkManager extends NetworkManager {
             return temp;
         }
         return null;
+    }
+
+    /**
+     * Used to get the server thread connection
+     * @return The server thread connection
+     */
+    public ServerThreadConnection getServerThread() {
+        return (ServerThreadConnection) this.connection;
     }
 }
