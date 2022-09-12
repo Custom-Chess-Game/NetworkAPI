@@ -3,9 +3,9 @@ The API used to connect the client and server together though sockets
 
 # Dependency
 
-[![](https://jitpack.io/v/Custom-Chess-Game/NetworkAPI.svg)](https://jitpack.io/#Custom-Chess-Game/NetworkAPI)
+> Version/Tag [![](https://jitpack.io/v/Custom-Chess-Game/NetworkAPI.svg)](https://jitpack.io/#Custom-Chess-Game/NetworkAPI)
 
-> Maven dependency
+## Maven dependency
 ```xml
 <repositories>
     <repository>
@@ -22,7 +22,7 @@ The API used to connect the client and server together though sockets
 </dependency>
 ```
 
-> Gradel dependency
+## Gradel dependency
 ```gradle
 allprojects {
     repositories {
