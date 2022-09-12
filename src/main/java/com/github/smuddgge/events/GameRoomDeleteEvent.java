@@ -15,7 +15,7 @@ public class GameRoomDeleteEvent extends Event {
     public void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
         // Check if they are the owner of the game room
         GameRoom gameRoom = server.getGameRoom(serverThreadNetworkManager.getPlayerProfile());
-        if (gameRoom.player1 != serverThreadNetworkManager.getPlayerProfile().uuid) return;
+        if (!gameRoom.containsPlayer(serverThreadNetworkManager.getPlayerProfile().uuid)) return;
 
         // Remove the game room
         server.removeGameRoom(gameRoom);
