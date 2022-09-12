@@ -28,15 +28,19 @@ public class NetworkManager {
         this.connection = connection;
 
         // Add events
+        this.events.add(new GameRoomCreateEvent());
+        this.events.add(new GameRoomDeleteEvent());
+        this.events.add(new GameRoomJoinEvent());
+
         this.events.add(new PlayerConnectionEvent());
         this.events.add(new PlayerDisconnectEvent());
         this.events.add(new PlayerMoveEvent());
         this.events.add(new PlayerStatusEvent());
 
         // Add requests
-        this.requests.add(new ClientListRequest());
-        this.requests.add(new CreateGameRoomRequest());
+        this.requests.add(new PlayerListRequest());
+        this.requests.add(new GameRoomListRequest());
+        this.requests.add(new GameRoomRequest());
         this.requests.add(new PlayerMoveRequest());
-        this.requests.add(new PlayerGameRoomRequest());
     }
 }

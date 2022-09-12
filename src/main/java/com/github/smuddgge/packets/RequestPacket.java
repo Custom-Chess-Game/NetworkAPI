@@ -10,6 +10,7 @@ import java.util.Map;
 public class RequestPacket extends Packet {
 
     private final Map<String, Object> requestPacket = new HashMap<>();
+    private final Map<String, Object> requestData = new HashMap<>();
 
     /**
      * Used to create a request packet
@@ -21,9 +22,17 @@ public class RequestPacket extends Packet {
     }
 
     /**
+     * Used to add a credential to the request
+     */
+    public void addCredential(String key, String value) {
+        this.requestData.put(key, value);
+    }
+
+    /**
      * Used to package the request packet
      */
     public void packageRequest() {
+        this.requestPacket.put("data", this.requestData);
         this.packet.put("request", this.requestPacket);
     }
 

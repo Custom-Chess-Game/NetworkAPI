@@ -8,8 +8,11 @@ import java.util.UUID;
  */
 public class GameRoom {
 
-    public UUID player1;
-    public UUID player2;
+    public UUID uuid;
+    public String name;
+
+    public UUID player1 = null;
+    public UUID player2 = null;
 
     public ArrayList<String> moves = new ArrayList<>();
 
@@ -63,5 +66,13 @@ public class GameRoom {
         if (this.player1 == uuid) return this.player2;
         if (this.player2 == uuid) return this.player1;
         return null;
+    }
+
+    /**
+     * Used to check if the game room is full
+     * @return True if the game room is full
+     */
+    public boolean isFull() {
+        return this.player1 != null && this.player2 != null;
     }
 }

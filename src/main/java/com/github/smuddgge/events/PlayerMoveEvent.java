@@ -23,7 +23,7 @@ public class PlayerMoveEvent extends Event {
 
     @Override
     public void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        GameRoom gameRoom = server.getGameRoom(serverThreadNetworkManager.getPlayerProfile().uuid);
+        GameRoom gameRoom = server.getGameRoom(serverThreadNetworkManager.getPlayerProfile());
 
         String move = (String) credentials.getMap().get("move");
 

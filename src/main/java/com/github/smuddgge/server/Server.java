@@ -4,11 +4,13 @@ import com.github.smuddgge.connections.ServerThreadConnection;
 import com.github.smuddgge.console.Console;
 import com.github.smuddgge.console.ConsoleColour;
 import com.github.smuddgge.utility.GameRoom;
+import com.github.smuddgge.utility.PlayerProfile;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -113,7 +115,7 @@ public class Server {
     public void addGameRoom(GameRoom gameRoom) {
         this.gameRooms.add(gameRoom);
 
-        if (this.debugMode) Console.print("[server] " + ConsoleColour.WHITE + "New game room created");
+        if (this.debugMode) Console.print("[server] " + ConsoleColour.WHITE + "New game room created: " + gameRoom.uuid.toString());
     }
 
     /**
@@ -131,11 +133,46 @@ public class Server {
         return this.gameRooms;
     }
 
-    public GameRoom getGameRoom(UUID uuid) {
+    /**
+     * Used to get the game room given a player in the room
+     * @param playerProfile The players profile
+     * @return The instance of the game room
+     */
+    public GameRoom getGameRoom(PlayerProfile playerProfile) {
         for (GameRoom gameRoom : this.getGameRooms()) {
-            if (!gameRoom.containsPlayer(uuid)) continue;
+            if (!gameRoom.containsPlayer(playerProfile.uuid)) continue;
             return gameRoom;
         }
         return null;
+    }
+
+    /**
+     * Used to get the game room given the game room uuid
+     * @param uuid UUID of the game room
+     * @return The game room instance
+     */
+    public GameRoom getGameRoom(UUID uuid) {
+        for (GameRoom gameRoom : this.getGameRooms()) {
+            if (Objects.equals(gameRoom.uuid.toString(), uuid.toString())) return gameRoom;
+        }
+        return null;
+    }
+
+    /**
+     * Used to remove a game room from active game rooms
+     * @param gameRoom Game room to remove
+     */
+    public void removeGameRoom(GameRoom gameRoom) {
+        this.gameRooms.remove(gameRoom);
+
+        if (this.debugMode) Console.print("[server] " + ConsoleColour.WHITE + "Game room removed: " + gameRoom.uuid.toString());
+    }
+
+    /**
+     * Used to get if the server is in debug mode
+     * @return True if in debug mode
+     */
+    public boolean getDebugMode() {
+        return this.debugMode;
     }
 }

@@ -11,7 +11,7 @@ public class PlayerMoveRequest extends Request {
 
     @Override
     public Object onRequest(Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        GameRoom gameRoom = server.getGameRoom(serverThreadNetworkManager.getPlayerProfile().uuid);
+        GameRoom gameRoom = server.getGameRoom(serverThreadNetworkManager.getPlayerProfile());
 
         return gameRoom.getMoveAndReset(gameRoom.getOtherPlayer(serverThreadNetworkManager.getPlayerProfile().uuid));
     }

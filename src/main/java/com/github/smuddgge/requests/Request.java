@@ -1,6 +1,7 @@
 package com.github.smuddgge.requests;
 
 import com.github.smuddgge.managers.ServerThreadNetworkManager;
+import com.github.smuddgge.packets.Packet;
 import com.github.smuddgge.packets.RequestPacket;
 import com.github.smuddgge.packets.ResponsePacket;
 import com.github.smuddgge.server.Server;

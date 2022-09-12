@@ -3,10 +3,13 @@ package com.github.smuddgge.requests;
 import com.github.smuddgge.managers.ServerThreadNetworkManager;
 import com.github.smuddgge.server.Server;
 
-public class PlayerGameRoomRequest extends Request {
+/**
+ * Request is used to get information on the game room they are currently in
+ */
+public class GameRoomRequest extends Request {
 
     @Override
     public Object onRequest(Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        return server.getGameRoom(serverThreadNetworkManager.getPlayerProfile().uuid);
+        return server.getGameRoom(serverThreadNetworkManager.getPlayerProfile());
     }
 }
