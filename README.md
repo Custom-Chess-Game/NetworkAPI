@@ -3,7 +3,7 @@ The API used to connect the client and server together though sockets
 
 # Dependency
 
-> Version/Tag [![](https://jitpack.io/v/Custom-Chess-Game/NetworkAPI.svg)](https://jitpack.io/#Custom-Chess-Game/NetworkAPI)
+> [![](https://jitpack.io/v/Custom-Chess-Game/NetworkAPI.svg)](https://jitpack.io/#Custom-Chess-Game/NetworkAPI)
 
 ## Maven dependency
 ```xml
