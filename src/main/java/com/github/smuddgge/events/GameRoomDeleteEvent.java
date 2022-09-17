@@ -4,7 +4,6 @@ import com.github.smuddgge.managers.ServerThreadNetworkManager;
 import com.github.smuddgge.packets.Packet;
 import com.github.smuddgge.server.Server;
 import com.github.smuddgge.utility.GameRoom;
-import com.github.smuddgge.utility.PlayerStatus;
 
 /**
  * Event used to delete the game room they are in
