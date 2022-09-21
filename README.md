@@ -3,6 +3,8 @@ The API used to connect the client and server together though sockets
 
 # Dependency
 
+Replace `Tag` with this number
+Example: `1.0.0`
 > [![](https://jitpack.io/v/Custom-Chess-Game/NetworkAPI.svg)](https://jitpack.io/#Custom-Chess-Game/NetworkAPI)
 
 ## Maven dependency
@@ -33,6 +35,6 @@ allprojects {
 ```
 ```gradle
 dependencies {
-    implementation 'com.github.Custom-Chess-Game:NetworkAPI:1.1.0'
+    implementation 'com.github.Custom-Chess-Game:NetworkAPI:Tag'
 }
 ```
