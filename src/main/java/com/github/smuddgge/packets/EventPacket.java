@@ -9,7 +9,7 @@ import java.util.Map;
  * Every event will have a name and a collection of credentials.
  * Event credentials are custom to the event and used exchange data
  * from the client to the server.
- *
+ * <p>
  * An event pack it extended from a {@link Packet}
  */
 public class EventPacket extends Packet {
@@ -24,6 +24,7 @@ public class EventPacket extends Packet {
 
     /**
      * Used to get the event packet
+     *
      * @return Event packet as a packet
      */
     public Packet getEventPacketMap() {
@@ -32,6 +33,7 @@ public class EventPacket extends Packet {
 
     /**
      * Used to get the credentials packet
+     *
      * @return Event credentials as a packet
      */
     public Packet getEventCredentialsMap() {
@@ -40,6 +42,7 @@ public class EventPacket extends Packet {
 
     /**
      * Used to get the name from the packet
+     *
      * @return Event name
      */
     public String getName() {
@@ -66,6 +69,7 @@ public class EventPacket extends Packet {
 
     /**
      * Used to check if a packet is an event packet
+     *
      * @param packet Packet to check
      * @return True if the packet is an event packet
      */
@@ -75,6 +79,7 @@ public class EventPacket extends Packet {
 
     /**
      * Used to convert a json string into an event packet
+     *
      * @param json Json to convert
      * @return Instance of the event packet
      */

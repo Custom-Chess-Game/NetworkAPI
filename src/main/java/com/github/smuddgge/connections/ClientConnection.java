@@ -13,6 +13,7 @@ public class ClientConnection extends Connection {
 
     /**
      * Used to initialise the connection to the server
+     *
      * @param host The host
      *             localhost if running on the same machine
      * @param port The port the server is running on
@@ -26,6 +27,7 @@ public class ClientConnection extends Connection {
 
     /**
      * Used to request something from the server
+     *
      * @param request Information to send to the server
      * @return Result from the server
      */
@@ -39,6 +41,7 @@ public class ClientConnection extends Connection {
 
     /**
      * Used to get the client network manager
+     *
      * @return Client network manager
      */
     public ClientNetworkManager getNetworkManager() {

@@ -9,6 +9,7 @@ public class ResponsePacket extends Packet {
 
     /**
      * Used to create response packet
+     *
      * @param name Name of the response
      */
     public ResponsePacket(String name) {
@@ -17,6 +18,7 @@ public class ResponsePacket extends Packet {
 
     /**
      * Used to set the data in the response
+     *
      * @param data The response data
      */
     public void setData(Object data) {
@@ -26,6 +28,7 @@ public class ResponsePacket extends Packet {
 
     /**
      * Used to get the data from the response
+     *
      * @return Response data
      */
     public Object getData() {
@@ -34,6 +37,7 @@ public class ResponsePacket extends Packet {
 
     /**
      * Used to convert a json string into a response packet
+     *
      * @param json Json string to convert
      * @return Instance of the response packet
      */

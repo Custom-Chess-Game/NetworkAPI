@@ -13,10 +13,12 @@ import java.util.UUID;
  */
 public class GameRoomCreateEvent extends Event {
 
-    public GameRoomCreateEvent() {}
+    public GameRoomCreateEvent() {
+    }
 
     /**
      * Used to create a game room event
+     *
      * @param name Name of the game room
      * @param uuid The uuid of the game room
      */

@@ -14,6 +14,7 @@ public class RequestPacket extends Packet {
 
     /**
      * Used to create a request packet
+     *
      * @param name Name of the request packet
      */
     public RequestPacket(String name) {
@@ -24,20 +25,22 @@ public class RequestPacket extends Packet {
     /**
      * Used to add a credential to the request
      */
-    public void addCredential(String key, String value) {
+    public void addCredential(String key, Object value) {
         this.requestData.put(key, value);
+        this.packageRequest();
     }
 
     /**
      * Used to package the request packet
      */
-    public void packageRequest() {
+    private void packageRequest() {
         this.requestPacket.put("data", this.requestData);
         this.packet.put("request", this.requestPacket);
     }
 
     /**
      * Used to get the request packet
+     *
      * @return Event packet as a packet
      */
     public Packet getRequestPacketMap() {
@@ -46,6 +49,7 @@ public class RequestPacket extends Packet {
 
     /**
      * Used to get the name from the packet
+     *
      * @return Request name
      */
     public String getName() {
@@ -54,6 +58,7 @@ public class RequestPacket extends Packet {
 
     /**
      * Used to check if a packet contains a request
+     *
      * @param packet Packet to check
      * @return True if it contains a request
      */
@@ -63,6 +68,7 @@ public class RequestPacket extends Packet {
 
     /**
      * Used to convert a json string into a request packet
+     *
      * @param json Json string to convert
      * @return Instance of the request packet
      */
@@ -71,5 +77,9 @@ public class RequestPacket extends Packet {
         RequestPacket requestPacket = new RequestPacket((String) packet.getPacketFromKey("request").getMap().get("name"));
         requestPacket.packet = packet.getMap();
         return requestPacket;
+    }
+
+    public Packet getRequestCredentialsMap() {
+        return this.getRequestPacketMap().getPacketFromKey("data");
     }
 }

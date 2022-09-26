@@ -12,6 +12,7 @@ public class ClientNetworkManager extends NetworkManager {
     /**
      * Used to create a network manager
      * Used to create a client specific network manager
+     *
      * @param connection Connection to the socket
      */
     public ClientNetworkManager(ClientConnection connection) {
@@ -20,6 +21,7 @@ public class ClientNetworkManager extends NetworkManager {
 
     /**
      * Used to broadcast an event to the server
+     *
      * @param event Event to broadcast
      */
     public void broadcastEvent(Event event) {
@@ -33,8 +35,7 @@ public class ClientNetworkManager extends NetworkManager {
             ResponsePacket responsePacket = ResponsePacket.getResponsePacket(json);
 
             return responsePacket.getData();
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             exception.printStackTrace();
             return null;
         }

@@ -3,6 +3,9 @@ package com.github.smuddgge.server;
 import com.github.smuddgge.connections.ServerThreadConnection;
 import com.github.smuddgge.console.Console;
 import com.github.smuddgge.console.ConsoleColour;
+import com.github.smuddgge.database.data.GameTable;
+import com.github.smuddgge.database.data.PlayerTable;
+import com.github.smuddgge.database.sqlite.SQLiteDatabase;
 import com.github.smuddgge.utility.GameRoom;
 import com.github.smuddgge.utility.PlayerProfile;
 
@@ -29,6 +32,11 @@ public class Server {
     private final ServerSocket serverSocket;
 
     /**
+     * The instance of the servers database
+     */
+    private final SQLiteDatabase database;
+
+    /**
      * The current connections to clients
      */
     private ArrayList<ServerThreadConnection> connections = new ArrayList<>();
@@ -45,25 +53,40 @@ public class Server {
 
     /**
      * Used to initialise the server
+     *
      * @param port The socket port
      */
     public Server(int port) throws IOException {
         // Create a server socket
-        serverSocket = new ServerSocket(port);
+        this.serverSocket = new ServerSocket(port);
 
-        Console.print("[Server] " + ConsoleColour.GREEN + "Listening for connections on " + ConsoleColour.YELLOW + port);
+        Console.log("[Server] " + ConsoleColour.GREEN + "Listening for connections on " + ConsoleColour.YELLOW + port);
+
+        // Connecting to the database
+        this.database = new SQLiteDatabase("database");
+
+        if (!this.database.setup()) {
+            Console.warn("[Server] Database setup unsuccessful");
+            return;
+        }
+
+        Console.log("[Server] " + ConsoleColour.GRAY + "Database connected");
+
+        // Setup tables
+        this.database.createTable(new PlayerTable(this.database));
+        this.database.createTable(new GameTable(this.database));
     }
 
     /**
      * Used to run the server
      */
     public void run() {
-        while(this.running) {
+        while (this.running) {
             try {
                 // Wait for new client connection
                 Socket client = serverSocket.accept();
 
-                Console.print("[Server] " + ConsoleColour.PINK + "Client connected " + ConsoleColour.YELLOW + client.getInetAddress());
+                Console.log("[Server] " + ConsoleColour.PINK + "Client connected " + ConsoleColour.YELLOW + client.getInetAddress());
 
                 // Thread the client
                 ServerThreadConnection serverThread = new ServerThreadConnection(client, this);
@@ -72,8 +95,7 @@ public class Server {
 
                 Thread thread = new Thread(serverThread::run);
                 thread.start();
-            }
-            catch (IOException exception) {
+            } catch (IOException exception) {
                 exception.printStackTrace();
             }
         }
@@ -83,7 +105,7 @@ public class Server {
      * Used to stop the server
      */
     public void stop() {
-        Console.print("[Server] " + ConsoleColour.GREEN + "Stopping server");
+        Console.log("[Server] " + ConsoleColour.GREEN + "Stopping server");
 
         // Stop listening for connections
         this.running = false;
@@ -93,11 +115,12 @@ public class Server {
             serverConnection.stop();
         }
 
-        Console.print("[Server] " + ConsoleColour.GREEN + "Server stopped");
+        Console.log("[Server] " + ConsoleColour.GREEN + "Server stopped");
     }
 
     /**
      * Used to set debug mode to a certain value for all threads
+     *
      * @param debugMode True to turn on debug mode for all threads
      */
     public void setDebugMode(boolean debugMode) {
@@ -109,17 +132,8 @@ public class Server {
     }
 
     /**
-     * Used to add a game room
-     * @param gameRoom Game room to add
-     */
-    public void addGameRoom(GameRoom gameRoom) {
-        this.gameRooms.add(gameRoom);
-
-        if (this.debugMode) Console.print("[server] " + ConsoleColour.WHITE + "New game room created: " + gameRoom.uuid.toString());
-    }
-
-    /**
      * Get the connections to the server
+     *
      * @return List of connections to the server
      */
     public ArrayList<ServerThreadConnection> getConnections() {
@@ -135,6 +149,7 @@ public class Server {
 
     /**
      * Used to get the game room given a player in the room
+     *
      * @param playerProfile The players profile
      * @return The instance of the game room
      */
@@ -148,6 +163,7 @@ public class Server {
 
     /**
      * Used to get the game room given the game room uuid
+     *
      * @param uuid UUID of the game room
      * @return The game room instance
      */
@@ -159,20 +175,44 @@ public class Server {
     }
 
     /**
+     * Used to add a game room
+     *
+     * @param gameRoom Game room to add
+     */
+    public void addGameRoom(GameRoom gameRoom) {
+        this.gameRooms.add(gameRoom);
+
+        if (this.debugMode)
+            Console.log("[server] " + ConsoleColour.GRAY + "New game room created: " + gameRoom.uuid.toString());
+    }
+
+    /**
      * Used to remove a game room from active game rooms
+     *
      * @param gameRoom Game room to remove
      */
     public void removeGameRoom(GameRoom gameRoom) {
         this.gameRooms.remove(gameRoom);
 
-        if (this.debugMode) Console.print("[server] " + ConsoleColour.WHITE + "Game room removed: " + gameRoom.uuid.toString());
+        if (this.debugMode)
+            Console.log("[server] " + ConsoleColour.GRAY + "Game room removed: " + gameRoom.uuid.toString());
     }
 
     /**
      * Used to get if the server is in debug mode
+     *
      * @return True if in debug mode
      */
     public boolean getDebugMode() {
         return this.debugMode;
+    }
+
+    /**
+     * Used to get the instance of the database
+     *
+     * @return Instance of the database
+     */
+    public SQLiteDatabase getDatabase() {
+        return this.database;
     }
 }

@@ -1,6 +1,8 @@
 package com.github.smuddgge.tests;
 
 import com.github.smuddgge.connections.ClientConnection;
+import com.github.smuddgge.database.data.GameRecord;
+import com.github.smuddgge.database.data.PlayerRecord;
 import com.github.smuddgge.events.*;
 import com.github.smuddgge.mocks.server.MockServer;
 import com.github.smuddgge.requests.PlayerMoveRequest;
@@ -16,6 +18,40 @@ import java.util.UUID;
  * Used to test events
  */
 public class TestEvents {
+
+    @Test
+    public void testPlayerUpdateEvent() throws Exception {
+        Server server = MockServer.startAndGet(16000);
+        server.setDebugMode(true);
+
+        ClientConnection clientConnection = new ClientConnection("localhost", 16000);
+        clientConnection.setDebugMode(true);
+
+        PlayerRecord playerRecord = new PlayerRecord();
+        playerRecord.uuid = String.valueOf(UUID.randomUUID());
+        playerRecord.name = "Smudge";
+        playerRecord.joinDate = "2022";
+
+        clientConnection.getNetworkManager().broadcastEvent(new DatabasePlayerUpdateEvent(playerRecord));
+    }
+
+    @Test
+    public void testGameUpdateEvent() throws Exception {
+        Server server = MockServer.startAndGet(16001);
+        server.setDebugMode(true);
+
+        ClientConnection clientConnection = new ClientConnection("localhost", 16001);
+        clientConnection.setDebugMode(true);
+
+        GameRecord gameRecord = new GameRecord();
+        gameRecord.uuid = String.valueOf(UUID.randomUUID());
+        gameRecord.player1 = String.valueOf(UUID.randomUUID());
+        gameRecord.player2 = String.valueOf(UUID.randomUUID());
+        gameRecord.log = "[log]";
+        gameRecord.timeStamp = String.valueOf(System.currentTimeMillis());
+
+        clientConnection.getNetworkManager().broadcastEvent(new DatabaseGameUpdateEvent(gameRecord));
+    }
 
     @Test
     public void testGameRoomCreateEvent() throws Exception {

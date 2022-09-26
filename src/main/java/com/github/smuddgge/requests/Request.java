@@ -1,6 +1,7 @@
 package com.github.smuddgge.requests;
 
 import com.github.smuddgge.managers.ServerThreadNetworkManager;
+import com.github.smuddgge.packets.Packet;
 import com.github.smuddgge.packets.RequestPacket;
 import com.github.smuddgge.packets.ResponsePacket;
 import com.github.smuddgge.server.Server;
@@ -21,6 +22,7 @@ public abstract class Request {
 
     /**
      * Used to get the name of the request
+     *
      * @return Name of the request
      */
     public String getName() {
@@ -29,13 +31,15 @@ public abstract class Request {
 
     /**
      * Called when the request reaches the server
+     *
      * @param server Instance of the server
      * @return Object data
      */
-    public abstract Object onRequest(Server server, ServerThreadNetworkManager serverThreadNetworkManager);
+    public abstract Object onRequest(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager);
 
     /**
      * Used to get the request packet
+     *
      * @return The request packet
      */
     public RequestPacket getRequestPacket() {
@@ -44,11 +48,12 @@ public abstract class Request {
 
     /**
      * Used to get the response packet
+     *
      * @param server Instance of the server
      * @return The raw json string
      */
-    public String getResponsePacket(Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        Object responseData = this.onRequest(server, serverThreadNetworkManager);
+    public String getResponsePacket(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
+        Object responseData = this.onRequest(credentials, server, serverThreadNetworkManager);
         ResponsePacket responsePacket = new ResponsePacket(this.getName());
         responsePacket.setData(responseData);
         return responsePacket.getRaw();

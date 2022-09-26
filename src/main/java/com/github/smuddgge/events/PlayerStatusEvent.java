@@ -7,7 +7,8 @@ import com.github.smuddgge.utility.PlayerStatus;
 
 public class PlayerStatusEvent extends Event {
 
-    public PlayerStatusEvent() {}
+    public PlayerStatusEvent() {
+    }
 
     public PlayerStatusEvent(PlayerStatus playerStatus) {
         this.getEventPacket().addCredential("status", playerStatus.toString());

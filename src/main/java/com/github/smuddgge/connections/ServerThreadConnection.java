@@ -32,6 +32,7 @@ public class ServerThreadConnection extends Connection {
 
     /**
      * Used to create a server thread
+     *
      * @param socket The socket connected to the client
      * @param server The server the thread is running on
      * @throws IOException Socket error
@@ -47,7 +48,7 @@ public class ServerThreadConnection extends Connection {
      * Threaded method
      */
     public void run() {
-        while(this.running) {
+        while (this.running) {
             try {
                 String data = read();
                 networkManager.interpret(data);
@@ -62,11 +63,12 @@ public class ServerThreadConnection extends Connection {
      */
     public void stop() {
         this.running = false;
-        Console.print(ConsoleColour.WHITE + "[Server Thread] Thread stopped on socket: " + this.socket);
+        Console.log(ConsoleColour.GRAY + "[Server Thread] Thread stopped on socket: " + this.socket);
     }
 
     /**
      * Used to get the threads network manager
+     *
      * @return Network manager
      */
     public ServerThreadNetworkManager getNetworkManager() {

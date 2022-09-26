@@ -10,10 +10,12 @@ import com.github.smuddgge.utility.GameRoom;
  */
 public class PlayerMoveEvent extends Event {
 
-    public PlayerMoveEvent() {}
+    public PlayerMoveEvent() {
+    }
 
     /**
      * Used to create a player move event
+     *
      * @param move Move made on the chess board
      */
     public PlayerMoveEvent(String move) {

@@ -21,6 +21,7 @@ public class GameRoom {
 
     /**
      * Used to check if a player is in this room
+     *
      * @param uuid UUID of the player
      * @return True if they are in the room
      */
@@ -31,6 +32,7 @@ public class GameRoom {
 
     /**
      * Set a move for a player
+     *
      * @param uuid UUID of the player that moved
      */
     public void setMoveForPlayer(UUID uuid, String move) {
@@ -40,14 +42,15 @@ public class GameRoom {
 
     /**
      * Used to get a players move and reset it afterwards
+     *
      * @param uuid UUID of player to get
      * @return The players move
      */
     public String getMoveAndReset(UUID uuid) {
         String toReturn = null;
         if (this.player1 == uuid) {
-           toReturn = this.latestMovePlayer1;
-           this.latestMovePlayer1 = null;
+            toReturn = this.latestMovePlayer1;
+            this.latestMovePlayer1 = null;
         }
         if (this.player2 == uuid) {
             toReturn = this.latestMovePlayer2;
@@ -59,6 +62,7 @@ public class GameRoom {
 
     /**
      * Used to get the opposite player given a player
+     *
      * @param uuid UUID of a player
      * @return The other player in the game room
      */
@@ -70,6 +74,7 @@ public class GameRoom {
 
     /**
      * Used to check if the game room is full
+     *
      * @return True if the game room is full
      */
     public boolean isFull() {

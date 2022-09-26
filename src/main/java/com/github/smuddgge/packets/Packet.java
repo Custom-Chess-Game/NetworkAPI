@@ -24,6 +24,7 @@ public class Packet {
 
     /**
      * Used to add data to the packet
+     *
      * @param data Data to add to the packet
      */
     public void append(Map<String, Object> data) {
@@ -39,6 +40,7 @@ public class Packet {
 
     /**
      * Used to get the map of the packet
+     *
      * @return Map of the packet
      */
     public Map<String, Object> getMap() {
@@ -47,6 +49,7 @@ public class Packet {
 
     /**
      * Get the packet as a raw json
+     *
      * @return Json string
      */
     public String getRaw() {
@@ -62,14 +65,19 @@ public class Packet {
 
     /**
      * Used to turn a json string into a packet
+     *
      * @param json Json string to convert
      * @return Instance of the json as a packet
      */
     public static Packet getPacket(String json) {
         Gson gson = new Gson();
 
-        Map<?, ?> unknownPacket = gson.fromJson(json, Map.class);
-        return Packet.getPacket(unknownPacket);
+        try {
+            Map<?, ?> unknownPacket = gson.fromJson(json, Map.class);
+            return Packet.getPacket(unknownPacket);
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     public static Packet getPacket(Map<?, ?> unknownPacket) {

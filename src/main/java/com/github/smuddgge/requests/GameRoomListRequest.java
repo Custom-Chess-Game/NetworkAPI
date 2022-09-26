@@ -1,6 +1,7 @@
 package com.github.smuddgge.requests;
 
 import com.github.smuddgge.managers.ServerThreadNetworkManager;
+import com.github.smuddgge.packets.Packet;
 import com.github.smuddgge.server.Server;
 import com.github.smuddgge.utility.GameRoom;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 public class GameRoomListRequest extends Request {
 
     @Override
-    public Object onRequest(Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
+    public Object onRequest(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
         Map<String, Object> gameRooms = new HashMap<>();
 
         for (GameRoom gameRoom : server.getGameRooms()) {

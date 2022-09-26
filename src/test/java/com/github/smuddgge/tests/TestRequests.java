@@ -1,24 +1,83 @@
 package com.github.smuddgge.tests;
 
 import com.github.smuddgge.connections.ClientConnection;
+import com.github.smuddgge.database.data.GameRecord;
+import com.github.smuddgge.database.data.PlayerRecord;
 import com.github.smuddgge.events.*;
 import com.github.smuddgge.mocks.server.MockServer;
-import com.github.smuddgge.requests.PlayerListRequest;
-import com.github.smuddgge.requests.GameRoomListRequest;
-import com.github.smuddgge.requests.GameRoomRequest;
-import com.github.smuddgge.requests.PlayerMoveRequest;
+import com.github.smuddgge.requests.*;
 import com.github.smuddgge.results.ResultChecker;
 import com.github.smuddgge.results.ResultNotNull;
 import com.github.smuddgge.server.Server;
 import com.github.smuddgge.utility.PlayerStatus;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
  * Used to test requests
  */
 public class TestRequests {
+
+    @Test
+    public void testDatabaseGameRequest() throws Exception {
+        Server server = MockServer.startAndGet(16000);
+        server.setDebugMode(true);
+
+        ClientConnection clientConnection = new ClientConnection("localhost", 16000);
+        clientConnection.setDebugMode(true);
+
+        GameRecord gameRecord = new GameRecord();
+        gameRecord.uuid = String.valueOf(UUID.randomUUID());
+        gameRecord.player1 = String.valueOf(UUID.randomUUID());
+        gameRecord.player2 = String.valueOf(UUID.randomUUID());
+        gameRecord.log = "[log]";
+        gameRecord.timeStamp = String.valueOf(System.currentTimeMillis());
+
+        clientConnection.getNetworkManager().broadcastEvent(new DatabaseGameUpdateEvent(gameRecord));
+
+        Object response = clientConnection.getNetworkManager().request(new DatabaseGameRequest("uuid", gameRecord.uuid));
+        Map<String, Object> responseMap = (Map<String, Object>) response;
+        Gson gson = new Gson();
+        String responseJson = gson.toJson(responseMap);
+        GameRecord responseGameRecord = gson.fromJson(responseJson, GameRecord.class);
+
+        new ResultChecker()
+                .expect(gameRecord.uuid, responseGameRecord.uuid)
+                .expect(gameRecord.player1, responseGameRecord.player1)
+                .expect(gameRecord.player2, responseGameRecord.player2)
+                .expect(gameRecord.log, responseGameRecord.log)
+                .expect(gameRecord.timeStamp, responseGameRecord.timeStamp);
+    }
+
+    @Test
+    public void testDatabasePlayerRequest() throws Exception {
+        Server server = MockServer.startAndGet(16001);
+        server.setDebugMode(true);
+
+        ClientConnection clientConnection = new ClientConnection("localhost", 16001);
+        clientConnection.setDebugMode(true);
+
+        PlayerRecord playerRecord = new PlayerRecord();
+        playerRecord.uuid = String.valueOf(UUID.randomUUID());
+        playerRecord.name = "Smudge";
+        playerRecord.joinDate = "2022";
+
+        clientConnection.getNetworkManager().broadcastEvent(new DatabasePlayerUpdateEvent(playerRecord));
+
+        Object response = clientConnection.getNetworkManager().request(new DatabasePlayerRequest("uuid", playerRecord.uuid));
+        Map<String, Object> responseMap = (Map<String, Object>) response;
+        Gson gson = new Gson();
+        String responseJson = gson.toJson(responseMap);
+        PlayerRecord responsePlayerRecord = gson.fromJson(responseJson, PlayerRecord.class);
+
+        new ResultChecker()
+                .expect(playerRecord.uuid, responsePlayerRecord.uuid)
+                .expect(playerRecord.name, responsePlayerRecord.name)
+                .expect(playerRecord.joinDate, responsePlayerRecord.joinDate);
+    }
 
     @Test
     public void testClientListRequest() throws Exception {

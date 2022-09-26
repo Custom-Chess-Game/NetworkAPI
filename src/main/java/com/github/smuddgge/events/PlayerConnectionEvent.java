@@ -11,10 +11,12 @@ import java.util.UUID;
  */
 public class PlayerConnectionEvent extends Event {
 
-    public PlayerConnectionEvent() {}
+    public PlayerConnectionEvent() {
+    }
 
     /**
      * Used to create a connection event
+     *
      * @param name Clients name
      * @param uuid The clients uuid
      */

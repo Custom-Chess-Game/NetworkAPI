@@ -21,6 +21,7 @@ public abstract class Event {
 
     /**
      * Used to get the name of the event
+     *
      * @return Name of the event
      */
     public String getEventName() {
@@ -29,14 +30,16 @@ public abstract class Event {
 
     /**
      * Used when the event packet is sent to the server
-     * @param credentials Credentials from the packet
-     * @param server The instance of the server running the thread
+     *
+     * @param credentials                Credentials from the packet
+     * @param server                     The instance of the server running the thread
      * @param serverThreadNetworkManager The thread network manager
      */
     public abstract void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager);
 
     /**
      * Used to get the event packet
+     *
      * @return The event packet
      */
     public EventPacket getEventPacket() {

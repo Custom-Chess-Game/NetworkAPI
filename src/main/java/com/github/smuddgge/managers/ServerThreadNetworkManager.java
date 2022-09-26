@@ -20,13 +20,14 @@ public class ServerThreadNetworkManager extends NetworkManager {
     private final Server server;
 
     /**
-     * The players infomation
+     * The players information
      */
     private final PlayerProfile playerProfile;
 
     /**
      * Used to create a network manager
      * Used to create a server specific manager
+     *
      * @param connection Connection to the socket
      */
     public ServerThreadNetworkManager(Connection connection, Server server) {
@@ -38,10 +39,14 @@ public class ServerThreadNetworkManager extends NetworkManager {
 
     /**
      * Used to interpret data sent to the server
+     *
      * @param data Data sent to the server
      */
     public void interpret(String data) {
         Packet packet = Packet.getPacket(data);
+
+        // Make sure the data is in json format
+        if (packet == null) return;
 
         // Check if the packet contains an event
         if (EventPacket.containsEvent(packet)) {
@@ -70,12 +75,13 @@ public class ServerThreadNetworkManager extends NetworkManager {
     private void interpretRequest(RequestPacket requestPacket) {
         for (Request request : this.requests) {
             if (!Objects.equals(requestPacket.getName(), request.getName())) continue;
-            this.connection.send(request.getResponsePacket(this.server, this));
+            this.connection.send(request.getResponsePacket(requestPacket.getRequestCredentialsMap(), this.server, this));
         }
     }
 
     /**
      * Used to get an event instance
+     *
      * @param event Event to get
      * @return Event instance
      */
@@ -89,6 +95,7 @@ public class ServerThreadNetworkManager extends NetworkManager {
 
     /**
      * Used to get the server thread connection
+     *
      * @return The server thread connection
      */
     public ServerThreadConnection getServerThread() {
@@ -97,6 +104,7 @@ public class ServerThreadNetworkManager extends NetworkManager {
 
     /**
      * Used to get the players profile
+     *
      * @return Player profile
      */
     public PlayerProfile getPlayerProfile() {

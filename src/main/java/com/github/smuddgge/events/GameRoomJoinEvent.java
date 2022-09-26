@@ -15,10 +15,12 @@ import java.util.UUID;
  */
 public class GameRoomJoinEvent extends Event {
 
-    public GameRoomJoinEvent() {}
+    public GameRoomJoinEvent() {
+    }
 
     /**
      * Used to create a game room join event
+     *
      * @param uuid UUID of the room that the player is joining
      */
     public GameRoomJoinEvent(UUID uuid) {
@@ -37,6 +39,7 @@ public class GameRoomJoinEvent extends Event {
         gameRoom.player2 = serverThreadNetworkManager.getPlayerProfile().uuid;
         serverThreadNetworkManager.getPlayerProfile().playerStatus = PlayerStatus.IN_GAME;
 
-        if (server.getDebugMode()) Console.print("[server] " + ConsoleColour.WHITE + "Join game room event: " + gameRoom.uuid.toString());
+        if (server.getDebugMode())
+            Console.log("[server] " + ConsoleColour.GRAY + "Join game room event: " + gameRoom.uuid.toString());
     }
 }
