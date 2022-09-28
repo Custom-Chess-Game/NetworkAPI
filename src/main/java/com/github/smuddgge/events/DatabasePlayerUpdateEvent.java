@@ -34,7 +34,5 @@ public class DatabasePlayerUpdateEvent extends Event {
         playerRecord.joinDate = (String) credentials.getMap().get("joinDate");
 
         server.getDatabase().getTable("Player").insertRecord(playerRecord);
-
-        System.out.println(playerRecord.uuid);
     }
 }
