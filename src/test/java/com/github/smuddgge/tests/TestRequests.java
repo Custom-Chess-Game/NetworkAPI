@@ -9,6 +9,7 @@ import com.github.smuddgge.requests.*;
 import com.github.smuddgge.results.ResultChecker;
 import com.github.smuddgge.results.ResultNotNull;
 import com.github.smuddgge.server.Server;
+import com.github.smuddgge.utility.AddressDistributer;
 import com.github.smuddgge.utility.PlayerStatus;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
@@ -24,10 +25,11 @@ public class TestRequests {
 
     @Test
     public void testDatabaseGameListRequest() throws Exception {
-        Server server = MockServer.startAndGet(15000);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 15000);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         GameRecord gameRecord = new GameRecord();
@@ -64,10 +66,11 @@ public class TestRequests {
 
     @Test
     public void testDatabaseGameRequest() throws Exception {
-        Server server = MockServer.startAndGet(16000);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 16000);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         GameRecord gameRecord = new GameRecord();
@@ -95,10 +98,11 @@ public class TestRequests {
 
     @Test
     public void testDatabasePlayerRequest() throws Exception {
-        Server server = MockServer.startAndGet(16001);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 16001);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         PlayerRecord playerRecord = new PlayerRecord();
@@ -122,20 +126,21 @@ public class TestRequests {
 
     @Test
     public void testClientListRequest() throws Exception {
-        Server server = MockServer.startAndGet(17200);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 17200);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         clientConnection.getNetworkManager().broadcastEvent(new PlayerConnectionEvent("Smudge", UUID.randomUUID()));
 
-        ClientConnection clientConnection2 = new ClientConnection("localhost", 17200);
+        ClientConnection clientConnection2 = new ClientConnection("localhost", port);
         clientConnection2.setDebugMode(true);
 
         clientConnection2.getNetworkManager().broadcastEvent(new PlayerConnectionEvent("Fluff", UUID.randomUUID()));
 
-        new ClientConnection("localhost", 17200);
+        new ClientConnection("localhost", port);
 
         Object response = clientConnection.getNetworkManager().request(new PlayerListRequest());
         new ResultChecker().expect(response, new ResultNotNull());
@@ -143,10 +148,11 @@ public class TestRequests {
 
     @Test
     public void testGameRoomListRequest() throws Exception {
-        Server server = MockServer.startAndGet(17201);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 17201);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         clientConnection.getNetworkManager().broadcastEvent(new GameRoomCreateEvent("Room1", UUID.randomUUID()));
@@ -157,10 +163,11 @@ public class TestRequests {
 
     @Test
     public void testGameRoomRequest() throws Exception {
-        Server server = MockServer.startAndGet(17202);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 17202);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         clientConnection.getNetworkManager().broadcastEvent(new GameRoomCreateEvent("Room1", UUID.randomUUID()));
@@ -171,16 +178,17 @@ public class TestRequests {
 
     @Test
     public void testPlayerMoveRequest() throws Exception {
-        Server server = MockServer.startAndGet(17203);
+        int port = AddressDistributer.next();
+        Server server = MockServer.startAndGet(port);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 17203);
+        ClientConnection clientConnection = new ClientConnection("localhost", port);
         clientConnection.setDebugMode(true);
 
         clientConnection.getNetworkManager().broadcastEvent(new PlayerConnectionEvent("Smudge", UUID.randomUUID()));
         clientConnection.getNetworkManager().broadcastEvent(new PlayerStatusEvent(PlayerStatus.WAITING));
 
-        ClientConnection clientConnection2 = new ClientConnection("localhost", 17203);
+        ClientConnection clientConnection2 = new ClientConnection("localhost", port);
         clientConnection2.setDebugMode(true);
 
         clientConnection2.getNetworkManager().broadcastEvent(new PlayerConnectionEvent("Fluff", UUID.randomUUID()));
