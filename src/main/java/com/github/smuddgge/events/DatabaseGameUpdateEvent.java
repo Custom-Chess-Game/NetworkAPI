@@ -23,6 +23,8 @@ public class DatabaseGameUpdateEvent extends Event {
         this.getEventPacket().addCredential("uuid", gameRecord.uuid);
         this.getEventPacket().addCredential("player1", gameRecord.player1);
         this.getEventPacket().addCredential("player2", gameRecord.player2);
+        this.getEventPacket().addCredential("winningPlayer", gameRecord.winningPlayer);
+        this.getEventPacket().addCredential("winningColour", gameRecord.winningColour);
         this.getEventPacket().addCredential("timeStamp", gameRecord.timeStamp);
         this.getEventPacket().addCredential("log", gameRecord.log);
     }
@@ -34,6 +36,8 @@ public class DatabaseGameUpdateEvent extends Event {
         gameRecord.uuid = (String) credentials.getMap().get("uuid");
         gameRecord.player1 = (String) credentials.getMap().get("player1");
         gameRecord.player2 = (String) credentials.getMap().get("player2");
+        gameRecord.winningPlayer = (String) credentials.getMap().get("winningPlayer");
+        gameRecord.winningColour = (String) credentials.getMap().get("winningColour");
         gameRecord.timeStamp = (String) credentials.getMap().get("timeStamp");
         gameRecord.log = (String) credentials.getMap().get("log");
 
