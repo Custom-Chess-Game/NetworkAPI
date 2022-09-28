@@ -50,8 +50,15 @@ public class ServerThreadConnection extends Connection {
     public void run() {
         while (this.running) {
             try {
+
+                if (this.socket != null && this.socket.isClosed()) return;
+
                 String data = read();
+
+                if (data == null) this.stop();
+
                 networkManager.interpret(data);
+
             } catch (IOException exception) {
                 exception.printStackTrace();
             }

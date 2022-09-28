@@ -39,12 +39,12 @@ public class Server {
     /**
      * The current connections to clients
      */
-    private ArrayList<ServerThreadConnection> connections = new ArrayList<>();
+    private final ArrayList<ServerThreadConnection> connections = new ArrayList<>();
 
     /**
      * The active game rooms
      */
-    private ArrayList<GameRoom> gameRooms = new ArrayList<>();
+    private final ArrayList<GameRoom> gameRooms = new ArrayList<>();
 
     /**
      * Weather or not the threads should start with debug mode
