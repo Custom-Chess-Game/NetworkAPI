@@ -199,6 +199,19 @@ public class Server {
     }
 
     /**
+     * Used to remove a game room given a player in the room
+     *
+     * @param playerProfile The players profile to check rooms with
+     */
+    public void removeGameRoom(PlayerProfile playerProfile) {
+        for (GameRoom gameRoom : this.gameRooms) {
+            if (!gameRoom.containsPlayer(playerProfile.uuid)) continue;
+
+            this.removeGameRoom(gameRoom);
+        }
+    }
+
+    /**
      * Used to get if the server is in debug mode
      *
      * @return True if in debug mode

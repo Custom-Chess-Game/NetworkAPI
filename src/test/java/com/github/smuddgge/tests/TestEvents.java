@@ -109,10 +109,10 @@ public class TestEvents {
 
     @Test
     public void testPlayerConnectionEvent() throws Exception {
-        Server server = MockServer.startAndGet(17300);
+        Server server = MockServer.startAndGet(17340);
         server.setDebugMode(true);
 
-        ClientConnection clientConnection = new ClientConnection("localhost", 17300);
+        ClientConnection clientConnection = new ClientConnection("localhost", 17340);
         clientConnection.setDebugMode(true);
 
         clientConnection.getNetworkManager().broadcastEvent(new PlayerConnectionEvent("Smudge", UUID.randomUUID()));

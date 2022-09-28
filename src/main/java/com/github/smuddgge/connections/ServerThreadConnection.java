@@ -70,6 +70,10 @@ public class ServerThreadConnection extends Connection {
      */
     public void stop() {
         this.running = false;
+
+        // Remove game rooms the player was in
+        this.server.removeGameRoom(this.networkManager.getPlayerProfile());
+
         Console.log(ConsoleColour.GRAY + "[Server Thread] Thread stopped on socket: " + this.socket);
     }
 
