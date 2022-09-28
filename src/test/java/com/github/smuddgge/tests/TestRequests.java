@@ -14,12 +14,53 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Used to test requests
  */
 public class TestRequests {
+
+    @Test
+    public void testDatabaseGameListRequest() throws Exception {
+        Server server = MockServer.startAndGet(15000);
+        server.setDebugMode(true);
+
+        ClientConnection clientConnection = new ClientConnection("localhost", 15000);
+        clientConnection.setDebugMode(true);
+
+        GameRecord gameRecord = new GameRecord();
+        gameRecord.uuid = String.valueOf(UUID.randomUUID());
+        gameRecord.player1 = String.valueOf(UUID.randomUUID());
+        gameRecord.player2 = String.valueOf(UUID.randomUUID());
+        gameRecord.log = "[log]";
+        gameRecord.timeStamp = String.valueOf(System.currentTimeMillis());
+
+        clientConnection.getNetworkManager().broadcastEvent(new DatabaseGameUpdateEvent(gameRecord));
+
+        Object response = clientConnection.getNetworkManager().request(new DatabaseGameListRequest("uuid", gameRecord.uuid));
+        Map<String, Object> responseMap = (Map<String, Object>) response;
+
+        for (Map.Entry<String, Object> entry : responseMap.entrySet()) {
+            Gson gson = new Gson();
+            String responseJson = gson.toJson(entry.getValue());
+            GameRecord responseGameRecord = gson.fromJson(responseJson, GameRecord.class);
+
+            if (!Objects.equals(responseGameRecord.uuid, gameRecord.uuid)) continue;
+
+            new ResultChecker()
+                    .expect(gameRecord.uuid, responseGameRecord.uuid)
+                    .expect(gameRecord.player1, responseGameRecord.player1)
+                    .expect(gameRecord.player2, responseGameRecord.player2)
+                    .expect(gameRecord.log, responseGameRecord.log)
+                    .expect(gameRecord.timeStamp, responseGameRecord.timeStamp);
+
+            return;
+        }
+
+        throw new Exception("Responce does not contain the new record");
+    }
 
     @Test
     public void testDatabaseGameRequest() throws Exception {

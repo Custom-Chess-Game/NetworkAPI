@@ -11,6 +11,7 @@ public class MockServer {
 
     /**
      * Used to start up a local host server
+     *
      * @param port Port to use
      * @return Instance of the server
      */

@@ -42,6 +42,7 @@ public class NetworkManager {
         this.events.add(new PlayerStatusEvent());
 
         // Add requests
+        this.requests.add(new DatabaseGameListRequest());
         this.requests.add(new DatabaseGameRequest());
         this.requests.add(new DatabasePlayerRequest());
 

@@ -6,8 +6,6 @@ import com.github.smuddgge.results.ResultChecker;
 import com.github.smuddgge.server.Server;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 /**
  * Used to test the server connection class
  * {@link ClientConnection}

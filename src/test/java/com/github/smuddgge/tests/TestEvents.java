@@ -5,8 +5,6 @@ import com.github.smuddgge.database.data.GameRecord;
 import com.github.smuddgge.database.data.PlayerRecord;
 import com.github.smuddgge.events.*;
 import com.github.smuddgge.mocks.server.MockServer;
-import com.github.smuddgge.requests.PlayerMoveRequest;
-import com.github.smuddgge.results.ResultChecker;
 import com.github.smuddgge.server.Server;
 import com.github.smuddgge.utility.PlayerStatus;
 import org.junit.jupiter.api.Test;
