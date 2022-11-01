@@ -12,7 +12,7 @@ public class GameRoomDeleteEvent extends Event {
 
     @Override
     public void update(Packet credentials, Server server, ServerThreadNetworkManager serverThreadNetworkManager) {
-        // Check if the game room exists, and they are the owner
+        // Check if the game room exists, and they are in the game room
         GameRoom gameRoom = server.getGameRoom(serverThreadNetworkManager.getPlayerProfile());
         if (gameRoom == null) return;
         if (!gameRoom.containsPlayer(serverThreadNetworkManager.getPlayerProfile().uuid)) return;
