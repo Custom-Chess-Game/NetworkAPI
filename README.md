@@ -38,3 +38,7 @@ dependencies {
     implementation 'com.github.Custom-Chess-Game:NetworkAPI:Tag'
 }
 ```
+
+# Author
+- Centre Number 20570
+- Candidate number 4607
